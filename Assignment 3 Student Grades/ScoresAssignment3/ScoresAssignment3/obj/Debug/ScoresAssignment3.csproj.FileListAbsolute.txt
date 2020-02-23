@@ -1,0 +1,10 @@
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\bin\Debug\ScoresAssignment3.exe.config
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\bin\Debug\ScoresAssignment3.exe
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\bin\Debug\ScoresAssignment3.pdb
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\obj\Debug\ScoresAssignment3.csprojAssemblyReference.cache
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\obj\Debug\ScoresAssignment3.Form1.resources
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\obj\Debug\ScoresAssignment3.Properties.Resources.resources
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\obj\Debug\ScoresAssignment3.csproj.GenerateResource.cache
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\obj\Debug\ScoresAssignment3.csproj.CoreCompileInputs.cache
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\obj\Debug\ScoresAssignment3.exe
+D:\Junior Year\3280\Assignment 3\ScoresAssignment3\ScoresAssignment3\obj\Debug\ScoresAssignment3.pdb

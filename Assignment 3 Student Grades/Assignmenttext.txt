@@ -1,0 +1,273 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ScoresAssignment3
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        string sNumStuds;
+        string sNumAssigns;
+        int numStudents = 0;
+        int numAssignments = 0;
+        string[] studentArr;
+        int[,] multiArr;
+        int currentStud = 0;
+        string sAssignNumBox;
+        string sAssignScoreBox;
+        int iAssignNumBox = 0;
+        int iAssignScoreBox = 0;
+        bool valid = false;
+        double average = 0;
+        string grade;
+
+        private void SubmitCounts_Click(object sender, EventArgs e)
+        {
+            sNumStuds = NumStudents.Text;
+            sNumAssigns = numberOfAssignments.Text;
+
+            while (valid == false)
+            {
+                if (!Int32.TryParse(sNumStuds, out numStudents))
+                {
+                    lError.Text = "Invalid Input";
+                    return;
+                }
+                else if (numStudents < 1 || numStudents > 10)
+                {
+                    lError.Text = "Number must be between 1 and 10";
+                    return;
+                }
+                else
+                {
+                    lError.Text = ":";
+                    valid = true;
+                }
+            }
+            valid = false;
+
+            while (valid == false)
+            {
+                if (!Int32.TryParse(sNumAssigns, out numAssignments))
+                {
+                    aError.Text = "Invalid Input";
+                    return;
+                }
+                else if (numAssignments < 1 || numAssignments > 99)
+                {
+                    aError.Text = "Number must be between 1 and 99";
+                    return;
+                }
+                else
+                {
+                    valid = true;
+                    aError.Text = ":";
+                }
+            }
+            valid = false;
+            studentArr = new string[numStudents];
+            multiArr = new int[numStudents, numAssignments];
+
+            for (int i = 0; i < studentArr.Length; i++)
+            {
+                studentArr[i] = "Student #" + " " + (i + 1);
+            }
+
+            for (int i = 0; i < numStudents; i++)
+            {
+                for (int j = 0; j < numAssignments; j++)
+                {
+                    multiArr[i, j] = 0;
+                }
+            }
+
+            assignmentScoreNums.Text = "Enter assignments 1 - " + sNumAssigns;
+            lStudNum.Text = studentArr[0];
+            currentStud = 0;
+
+        }
+
+        private void Reset_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < studentArr.Length; i++)
+            {
+                studentArr[i] = "Student #" + " " + (i + 1);
+            }
+
+            for (int i = 0; i < numStudents; i++)
+            {
+                for (int j = 0; j < numAssignments; j++)
+                {
+                    multiArr[i, j] = 0;
+                }
+            }
+            numStudents = 0;
+            numAssignments = 0;
+            average = 0;
+            currentStud = 0;
+            grade = null;
+            sAssignNumBox = null;
+            sAssignScoreBox = null;
+            lStudNum.Text = "Student #0";
+            assignmentScoreNums.Text = "Enter Assignment number X-X";
+            richTextBox1.Text = null;
+            lError.Text = ":";
+            aError.Text = ":";
+            studError.Text = ":";
+            assignError.Text = ":";
+            scoreError.Text = ":";
+
+        }
+
+        private void FirstStudent_Click(object sender, EventArgs e)
+        {
+            lStudNum.Text = studentArr[0];
+            currentStud = 1;
+        }
+
+        private void PrevStud_Click(object sender, EventArgs e)
+        {
+            if(currentStud > 0)
+            {
+                currentStud--;
+                lStudNum.Text = studentArr[currentStud];
+            }
+        }
+
+        private void NextStud_Click(object sender, EventArgs e)
+        {
+            if (currentStud <= studentArr.Length)
+            {
+                currentStud++;
+                lStudNum.Text = studentArr[currentStud];
+            }
+        }
+
+        private void LastStud_Click(object sender, EventArgs e)
+        {
+            lStudNum.Text = studentArr.Last();
+            currentStud = studentArr.Length;
+        }
+
+        private void StudentSave_Click(object sender, EventArgs e)
+        {
+            studentArr[currentStud] = studentInfoUp.Text;
+        }
+
+        private void SaveScore_Click(object sender, EventArgs e)
+        {
+            sAssignNumBox = assignmentNumBox.Text;
+            sAssignScoreBox = assignmentScoreBox.Text;
+
+            while (valid == false)
+            {
+                if (!Int32.TryParse(sAssignNumBox, out iAssignNumBox))
+                {
+                    assignError.Text = "Invalid Input";
+                    return;
+                }
+                else
+                {
+                    valid = true;
+                    assignError.Text = ":";
+                }
+            }
+
+            valid = false;
+
+            while (valid == false)
+            {
+                if (!Int32.TryParse(sAssignScoreBox, out iAssignScoreBox))
+                {
+                    scoreError.Text = "Invalid Input";
+                    return;
+                }
+                else
+                {
+                    valid = true;
+                    scoreError.Text = ":";
+                }
+            }
+
+            valid = false;
+            multiArr[currentStud, iAssignNumBox - 1] = iAssignScoreBox;
+        }
+
+        private void DisplayScores_Click(object sender, EventArgs e)
+        {
+                for (int i = 0; i < multiArr.GetLength(0); i++)
+                {
+                    richTextBox1.Text += studentArr[i] + "\t";
+                    for (int j = 0; j < multiArr.GetLength(1); j++)
+                    {
+                        average += multiArr[i, j];
+                        richTextBox1.Text += "Assignment#" + (j + 1) + ": " + multiArr[i, j] + "\t";
+                    }
+
+                    average = Convert.ToDouble(average / numAssignments);
+                    if (average > 93)
+                    {
+                        grade = "A";
+                    }
+                    else if (average < 93 && average > 90)
+                    {
+                        grade = "A-";
+                    }
+                    else if (average < 90 && average > 87)
+                    {
+                        grade = "B+";
+                    }
+                    else if (average < 87 && average > 83)
+                    {
+                        grade = "B";
+                    }
+                    else if (average < 83 && average > 80)
+                    {
+                        grade = "B-";
+                    }
+                    else if (average < 80 && average > 77)
+                    {
+                        grade = "C+";
+                    }
+                    else if (average < 77 && average > 73)
+                    {
+                        grade = "C";
+                    }
+                    else if (average < 73 && average > 70)
+                    {
+                        grade = "C-";
+                    }
+                    else if (average < 70 && average > 67)
+                    {
+                        grade = "D+";
+                    }
+                    else if (average < 67 && average > 63)
+                    {
+                        grade = "D";
+                    }
+                    else if (average < 63 && average > 60)
+                    {
+                        grade = "D-";
+                    }
+                    else if (average < 60)
+                    {
+                        grade = "F";
+                    }
+                richTextBox1.Text += "Average\t" + average + "\t";
+                richTextBox1.Text += "Grade\t" + grade;
+                richTextBox1.Text += "\n";
+                average = 0;
+            }
+        }
+    }
+}

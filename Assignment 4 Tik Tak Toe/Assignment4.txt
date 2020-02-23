@@ -1,0 +1,433 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace TikTacToe
+{
+    public partial class Form1 : Form
+    {
+        clsTiktactoe ticTac;
+        bool started;
+        bool p1Turn;
+        bool p2Turn;
+        int p1Win = 0;
+        int p2Win = 0;
+        int tie = 0;
+        string[,] multiBoard = new string[3, 3];
+        public Form1()
+        {
+            InitializeComponent();
+            p1Turn = true;
+            p2Turn = false;
+            ticTac = new clsTiktactoe();
+            started = false;
+            //ticTac.strBoard = multiBoard;
+        }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            started = true;
+            clearLabels();
+            resetColors();
+            clearArr();
+        }
+
+        public void clearArr()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    multiBoard[i, j] = null; 
+                }
+            }
+            ticTac.board = multiBoard;
+        }
+
+        public void clearLabels()
+        {
+            topLeft.Text = "-";
+            topMid.Text = "-";
+            topRight.Text = "-";
+            midLeft.Text = "-";
+            midMid.Text = "-";
+            midRight.Text = "-";
+            botLeft.Text = "-";
+            botMid.Text = "-";
+            botRight.Text = "-";
+        }
+
+        public void resetColors()
+        {
+            topLeft.BackColor = BackColor = Color.White;
+            topMid.BackColor = BackColor = Color.White;
+            topRight.BackColor = BackColor = Color.White;
+            midLeft.BackColor = BackColor = Color.White;
+            midMid.BackColor = BackColor = Color.White;
+            midRight.BackColor = BackColor = Color.White;
+            botLeft.BackColor = BackColor = Color.White;
+            botMid.BackColor = BackColor = Color.White;
+            botRight.BackColor = BackColor = Color.White;
+        }
+
+        private void ChoiceClick(object sender, EventArgs e)
+        {
+            if (started == true)
+            { 
+                Label selectedLbl = (Label)sender;
+                if (p1Turn == true && selectedLbl.Text != "O")
+                {
+                    selectedLbl.Text = "X";
+                    selectedLbl.BackColor = Color.Blue;
+                    gameStatusLabel.Text = "Turn: Player 1";
+                    p1Turn = false;
+                    p2Turn = true;
+                    if (selectedLbl == topLeft)
+                    {
+                        multiBoard[0,0] = "X";
+                    }
+                    else if(selectedLbl == topMid)
+                    {
+                        multiBoard[0, 1] = "X";
+                    }
+                    else if(selectedLbl == topRight)
+                    {
+                        multiBoard[0, 2] = "X";
+                    }
+                    else if(selectedLbl == midLeft)
+                    {
+                        multiBoard[1, 0] = "X";
+                    }
+                    else if(selectedLbl == midMid)
+                    {
+                        multiBoard[1, 1] = "X";
+                    }
+                    else if(selectedLbl == midRight)
+                    {
+                        multiBoard[1, 2] = "X";
+                    }
+                    else if(selectedLbl == botLeft)
+                    {
+                        multiBoard[2, 0] = "X";
+                    }
+                    else if(selectedLbl == botMid)
+                    {
+                        multiBoard[2, 1] = "X";
+                    }
+                    else if(selectedLbl == botRight)
+                    {
+                        multiBoard[2, 2] = "X";
+                    }
+                    ticTac.board = multiBoard;
+                    if(ticTac.IsWinningMove())
+                    {
+                        if(ticTac.winningMove == clsTiktactoe.WinningMove.Diag1)
+                        {
+                            topLeft.BackColor = Color.Yellow;
+                            midMid.BackColor = Color.Yellow;
+                            botRight.BackColor = Color.Yellow;
+                        }
+                        else if(ticTac.winningMove == clsTiktactoe.WinningMove.Diag2)
+                        {
+                            topRight.BackColor = Color.Yellow;
+                            midMid.BackColor = Color.Yellow;
+                            botLeft.BackColor = Color.Yellow;
+                        }
+                        else if(ticTac.winningMove == clsTiktactoe.WinningMove.Row1)
+                        {
+                            topLeft.BackColor = Color.Yellow;
+                            topMid.BackColor = Color.Yellow;
+                            topRight.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Row2)
+                        {
+                            midLeft.BackColor = Color.Yellow;
+                            midMid.BackColor = Color.Yellow;
+                            midRight.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Row3)
+                        {
+                            botLeft.BackColor = Color.Yellow;
+                            botMid.BackColor = Color.Yellow;
+                            botRight.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Col1)
+                        {
+                            topLeft.BackColor = Color.Yellow;
+                            midLeft.BackColor = Color.Yellow;
+                            botLeft.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Col2)
+                        {
+                            topMid.BackColor = Color.Yellow;
+                            midMid.BackColor = Color.Yellow;
+                            botMid.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Col3)
+                        {
+                            topRight.BackColor = Color.Yellow;
+                            midRight.BackColor = Color.Yellow;
+                            botRight.BackColor = Color.Yellow;
+                        }
+                        started = false;
+                        p1Win++;
+                        p1Wins.Text = p1Win.ToString();
+                        gameStatusLabel.Text = "Player 1 Wins!!!!!!!";
+                    }
+                    else if (ticTac.isTie())
+                    {
+                        started = false;
+                        tie++;
+                        lTies.Text = tie.ToString();
+                        gameStatusLabel.Text = "No One Wins!!!!!!!";
+                    }
+                }
+                else if (p2Turn == true && selectedLbl.Text != "X")
+                {
+                    selectedLbl.Text = "O";
+                    selectedLbl.BackColor = Color.Red;
+                    gameStatusLabel.Text = "Turn: Player 2";
+                    p2Turn = false;
+                    p1Turn = true;
+                    if (selectedLbl == topLeft)
+                    {
+                        multiBoard[0, 0] = "O";
+                    }
+                    else if (selectedLbl == topMid)
+                    {
+                        multiBoard[0, 1] = "O";
+                    }
+                    else if (selectedLbl == topRight)
+                    {
+                        multiBoard[0, 2] = "O";
+                    }
+                    else if (selectedLbl == midLeft)
+                    {
+                        multiBoard[1, 0] = "O";
+                    }
+                    else if (selectedLbl == midMid)
+                    {
+                        multiBoard[1, 1] = "O";
+                    }
+                    else if (selectedLbl == midRight)
+                    {
+                        multiBoard[1, 2] = "O";
+                    }
+                    else if (selectedLbl == botLeft)
+                    {
+                        multiBoard[2, 0] = "O";
+                    }
+                    else if (selectedLbl == botMid)
+                    {
+                        multiBoard[2, 1] = "O";
+                    }
+                    else if (selectedLbl == botRight)
+                    {
+                        multiBoard[2, 2] = "O";
+                    }
+                    ticTac.board = multiBoard;
+                    if(ticTac.IsWinningMove())
+                    {
+                        if (ticTac.winningMove == clsTiktactoe.WinningMove.Diag1)
+                        {
+                            topLeft.BackColor = Color.Yellow;
+                            midMid.BackColor = Color.Yellow;
+                            botRight.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Diag2)
+                        {
+                            topRight.BackColor = Color.Yellow;
+                            midMid.BackColor = Color.Yellow;
+                            botLeft.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Row1)
+                        {
+                            topLeft.BackColor = Color.Yellow;
+                            topMid.BackColor = Color.Yellow;
+                            topRight.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Row2)
+                        {
+                            midLeft.BackColor = Color.Yellow;
+                            midMid.BackColor = Color.Yellow;
+                            midRight.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Row3)
+                        {
+                            botLeft.BackColor = Color.Yellow;
+                            botMid.BackColor = Color.Yellow;
+                            botRight.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Col1)
+                        {
+                            topLeft.BackColor = Color.Yellow;
+                            midLeft.BackColor = Color.Yellow;
+                            botLeft.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Col2)
+                        {
+                            topMid.BackColor = Color.Yellow;
+                            midMid.BackColor = Color.Yellow;
+                            botMid.BackColor = Color.Yellow;
+                        }
+                        else if (ticTac.winningMove == clsTiktactoe.WinningMove.Col3)
+                        {
+                            topRight.BackColor = Color.Yellow;
+                            midRight.BackColor = Color.Yellow;
+                            botRight.BackColor = Color.Yellow;
+                        }
+                        started = false;
+                        p2Win++;
+                        p2Wins.Text = p2Win.ToString();
+                        gameStatusLabel.Text = "Player 2 Wins!!!!!!!";
+                    }
+                    else if(ticTac.isTie())
+                    {
+                        started = false;
+                        tie++;
+                        lTies.Text = tie.ToString();
+                        gameStatusLabel.Text = "No One Wins!!!!!!!";
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TikTacToe
+{
+    public class clsTiktactoe
+    {
+        public string[,] board;
+        public enum WinningMove
+        {
+            Row1,
+            Row2,
+            Row3,
+            Col1,
+            Col2,
+            Col3,
+            Diag1,
+            Diag2
+        }
+        public WinningMove winningMove;
+
+        public bool IsWinningMove()
+        {
+            if (isHoriWin() || isVertWin() || isDiagonalWin())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool isDiagonalWin()
+        {
+            if (board[1, 1] != null && board[0, 0] == board[1, 1] && board[0, 0] == board[2, 2])
+            {
+                winningMove = WinningMove.Diag1;
+                return true;
+            }
+            else if (board[1, 1] != null && board[0, 2] == board[1, 1] && board[0, 2] == board[2, 0])
+            {
+                winningMove = WinningMove.Diag2;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool isVertWin()
+        {
+            if (board[1, 0] != null && board[0, 0] == board[1, 0] && board[0, 0] == board[2, 0])
+            {
+                winningMove = WinningMove.Col1;
+                return true;
+            }
+            else if (board[1, 1] != null && board[0, 1] == board[1, 1] && board[0, 1] == board[2, 1])
+            {
+                winningMove = WinningMove.Col2;
+                return true;
+            }
+            else if (board[1, 2] != null && board[0, 2] == board[1, 2] && board[0, 2] == board[2, 2])
+            {
+                winningMove = WinningMove.Col3;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool isHoriWin()
+        {
+            if (board[0, 1] != null && board[0, 0] == board[0, 1] && board[0, 0] == board[0, 2])
+            {
+                winningMove = WinningMove.Row1;
+                return true;
+            }
+            else if (board[1, 1] != null && board[1, 0] == board[1, 1] && board[1, 0] == board[1, 2])
+            {
+                winningMove = WinningMove.Row2;
+                return true;
+            }
+            else if (board[2, 1] != null && board[2, 0] == board[2, 1] && board[2, 0] == board[2, 2])
+            {
+                winningMove = WinningMove.Row3;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool isTie()
+        {
+            if(isDiagonalWin() == false && isHoriWin() == false && isVertWin() == false)
+            {
+                if (board[0, 0] != null && board[0, 1] != null && board[0, 2] != null && 
+                    board[1, 0] != null && board[1, 1] != null && board[1, 2] != null &&
+                    board[2, 0] != null && board[2, 1] != null && board[2, 2] != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}

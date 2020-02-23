@@ -1,0 +1,12 @@
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\bin\Debug\MathGame.exe.config
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\bin\Debug\MathGame.exe
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\bin\Debug\MathGame.pdb
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.csprojAssemblyReference.cache
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.Main.resources
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.Properties.Resources.resources
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.csproj.GenerateResource.cache
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.csproj.CoreCompileInputs.cache
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.exe
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.pdb
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.GameScreen.resources
+D:\Junior Year\3280\Assignment 5\MathGame\MathGame\obj\Debug\MathGame.FinalScreen.resources
